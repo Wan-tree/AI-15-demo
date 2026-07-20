@@ -1,0 +1,15 @@
+portfolio:
+  long_fraction: 0.34
+  short_fraction: 0.34
+  gross_exposure: 1.0
+  minimum_products: 3
+
+costs:
+  # 普通调仓的单边成本，单位为基点。5 bps = 0.05%。
+  rebalance_bps: 5.0
+  # 合约换月时额外计算的单边成本。
+  roll_bps: 3.0
+
+report:
+  annualization_days: 252
+

@@ -1,0 +1,33 @@
+[OK] 01_机器学习与A股横截面收益预测/01_Gu_Kelly_Xiu_Empirical_Asset_Pricing_via_Machine_Learning.pdf | pages=79 | bytes=1177919 | sha256=a40411f516b405d06ec4fc8e0fff3642b6549e8945a5e80f141a7a00e517c70a
+[OK] 01_机器学习与A股横截面收益预测/02_Freyberger_Neuhierl_Weber_Dissecting_Characteristics_Nonparametrically.pdf | pages=107 | bytes=3216497 | sha256=e14b6c0ca2f01675ba1b061efacd4726850ded9c389ea1be515969175b83ac74
+[OK] 01_机器学习与A股横截面收益预测/03_Giglio_Kelly_Xiu_Factor_Models_ML_and_Asset_Pricing.pdf | pages=34 | bytes=859760 | sha256=95dae93c74f75fd20bff86fc327c6f2b020c7d4928b1be24ddc4410c40b5e015
+[OK] 02_大语言模型与上市公司公告/01_Chen_et_al_DocFEE_Chinese_Financial_Event_Extraction.pdf | pages=11 | bytes=1537929 | sha256=f3f9dbcc930bdebe2fdc868903eecb2a34d29cab09902182a4e369f9bcc4e6eb
+[OK] 02_大语言模型与上市公司公告/02_Araci_FinBERT.pdf | pages=11 | bytes=889324 | sha256=ce63c6b90be8c19ebbfc571a606cfefece714f99466f78aa5c6177049c3911a9
+[OK] 02_大语言模型与上市公司公告/03_Lopez_Lira_Tang_ChatGPT_Stock_Price_Movements.pdf | pages=142 | bytes=1146958 | sha256=a410e809cfffc39badcfb46bad31021aad3573f7f1800365507fb3fa6f8c3ca8
+[OK] 03_财务造假与财务困境预警/01_Dechow_et_al_Predicting_Material_Accounting_Misstatements.pdf | pages=63 | bytes=448004 | sha256=a2af2961ce21fea098b67438339c217c751e83edb7ebf96e2480925b325b5d3b
+[OK] 03_财务造假与财务困境预警/02_Jofre_Gerlach_Fighting_Accounting_Fraud_Data_Analytics.pdf | pages=39 | bytes=828437 | sha256=d1d23c31be560fa056a6e8e267bedc1c25990ff59ea42bfebbb0905c3fdceef6
+[OK] 03_财务造假与财务困境预警/03_Sharma_Panigrahi_Review_Financial_Accounting_Fraud_Detection.pdf | pages=11 | bytes=405622 | sha256=5e358aa591ba0da2b2936074685bf6ebf0830c39e5a6519348178c51c1d8e8f5
+[OK] 04_逐笔订单流与价格方向预测/01_Zhang_Zohren_Roberts_DeepLOB.pdf | pages=12 | bytes=640497 | sha256=f50d57a80644ac427433824b540c9bc713ffd2249c2042ba975d986078295913
+[OK] 04_逐笔订单流与价格方向预测/02_Briola_Bartolucci_Aste_Deep_LOB_Forecasting_LOBFrame.pdf | pages=43 | bytes=3669035 | sha256=1642bd288da08a8bff5d53d3e94bc81dee8b7368a69ff7d310db66da3bd3f7d8
+[OK] 04_逐笔订单流与价格方向预测/03_Ntakaris_et_al_FI2010_LOB_Benchmark_Dataset.pdf | pages=25 | bytes=1086764 | sha256=22d856cd9e1d951ddcec917bd7fcaf7e83f233b39c05f6a990617f32d201b31d
+[OK] 05_高频波动率预测/01_Corsi_HAR_RV.pdf | pages=23 | bytes=1058248 | sha256=18c305635feefc152a0522791de67677b5db037dd10958a09134c7d55cf222e5
+[OK] 05_高频波动率预测/02_Zhang_et_al_ML_and_Intraday_Commonality.pdf | pages=45 | bytes=6427413 | sha256=458f3a679731d28bf588cf7a17ac019ad2fba3cab5debd9fe15c0453b3d2d363
+[OK] 05_高频波动率预测/03_DeepVol_Deep_Learning_Volatility_Forecasting.pdf | pages=39 | bytes=1011962 | sha256=5174e4b7c0645010f8d9e2ef4d60128182cf70c01a636cccf165fdcb0d5fdb9e
+[OK] 06_ETF期货与价格发现/01_de_Jong_Measures_of_Contributions_to_Price_Discovery.pdf | pages=9 | bytes=138800 | sha256=cabcdad735379b6ec3a4169539768c926c049dc26d0a4a3ebf4ac4d5b3aed24d
+[OK] 06_ETF期货与价格发现/02_Hasbrouck_Price_Discovery_in_High_Resolution.pdf | pages=51 | bytes=1066184 | sha256=bd0f3368234263f0a442b2cfd4590f7703d0231441133f320eb1d37d4f31f229
+[OK] 06_ETF期货与价格发现/03_Chinese_Index_Futures_High_Frequency_Price_Discovery.pdf | pages=31 | bytes=875554 | sha256=0cb3fef78282af908ba21046bd6a7e4189cee26e1704d950c2ef25679c5e78c4
+[OK] 07_中国商品期货机器学习因子/01_Hu_et_al_Heterogeneous_Continual_GNN_Futures_Investment.pdf | pages=14 | bytes=2128776 | sha256=dd734eacb7f72779a611a2c8a85273c202df5ff41d9098fca8b7c0f0863e14ec
+[OK] 07_中国商品期货机器学习因子/02_Cheng_Zhou_Liu_LLM_Futures_Price_Factors_China.pdf | pages=51 | bytes=452628 | sha256=5a3c2bfada0df4e99fd3c48a76f42b18b72abf32ede170a27d7de8f6f7385096
+[OK] 07_中国商品期货机器学习因子/03_Bianchi_et_al_Commodity_Futures_Curve_Strategies.pdf | pages=49 | bytes=1072718 | sha256=d244f3b2fbc0ab91f955087ab7c87f5d417319115e79371b3c594870ca0b5150
+[OK] 08_高频异常交易状态检测/01_DeLise_Deep_Semi_Supervised_Anomaly_Detection_Futures.pdf | pages=11 | bytes=1236331 | sha256=bc03a5654d47c9afaaaf96d9e5c8d8089eb7f08a77c9df16ff25f6f03718ddd1
+[OK] 08_高频异常交易状态检测/02_Transformer_Anomaly_Detection_High_Frequency_Trading.pdf | pages=5 | bytes=662359 | sha256=77cb9c1aaaa1e39a2842a1c513fc715c08634580567b1e929e137f1624d8750b
+[OK] 08_高频异常交易状态检测/03_Outlier_Detection_Bitcoin_Limit_Order_Books.pdf | pages=11 | bytes=799774 | sha256=abe01ebf0b9a57571bcbb8199b959b7bff08be3307541195e9e587058e05c800
+[OK] 09_另类数据与投资者关注/01_Da_Engelberg_Gao_In_Search_of_Attention.pdf | pages=39 | bytes=452492 | sha256=879935f5cb615cfd4aa07dbb14bd473585a85b7a4372d75742369f7c0de78521
+[OK] 09_另类数据与投资者关注/02_Tetlock_Media_Sentiment_Stock_Market.pdf | pages=51 | bytes=472674 | sha256=036551683de65098e71fd71debd843ade6797a6a64085293bc86a447836f8f93
+[OK] 09_另类数据与投资者关注/03_Lopez_Lira_Tang_LLM_News_and_Return_Predictability.pdf | pages=142 | bytes=1146958 | sha256=a410e809cfffc39badcfb46bad31021aad3573f7f1800365507fb3fa6f8c3ca8
+[OK] 10_回测过拟合与数据泄漏/01_Bailey_et_al_Probability_of_Backtest_Overfitting.pdf | pages=34 | bytes=1145522 | sha256=d8bfbadaaedb430d9dec929646d92f3580fdf18238f34121ae7738fa1c69a63d
+[OK] 10_回测过拟合与数据泄漏/02_Bailey_et_al_Statistical_Overfitting_and_Backtest_Performance.pdf | pages=10 | bytes=681005 | sha256=81f7f2cbcc1dec248894ec5b8afcdfafd1250ea2d213704796fefaf4903e7c1b
+[OK] 10_回测过拟合与数据泄漏/03_Lopez_de_Prado_Pseudo_Mathematics_and_Financial_Charlatanism.pdf | pages=32 | bytes=975628 | sha256=77d6ceade397bfa467cc2d05325842f6a5ebf313fbd017c20444b943aee7d640
+
+TOTAL=30
+FAILED=0

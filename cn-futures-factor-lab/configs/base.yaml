@@ -1,0 +1,22 @@
+project:
+  name: cn-futures-factor-lab
+  timezone: Asia/Shanghai
+  random_seed: 42
+
+paths:
+  raw: data/raw
+  interim: data/interim
+  processed: data/processed
+  artifacts: artifacts
+
+demo:
+  start_date: "2021-01-04"
+  periods: 520
+  products: [RB, CU, M, TA, SR, MA]
+  contracts_per_product: 4
+
+main_contract:
+  selector: open_interest
+  selector_lag: 1
+  prevent_delivery_month_rollback: true
+

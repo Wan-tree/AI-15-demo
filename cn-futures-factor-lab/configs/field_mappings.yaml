@@ -1,0 +1,28 @@
+# 左侧是本项目的标准字段，右侧改成数据库导出文件中的真实列名。
+# 如果导出文件已经使用英文标准字段，则保持当前配置即可。
+columns:
+  trade_date: trade_date
+  exchange: exchange
+  product: product
+  contract: contract
+  open: open
+  high: high
+  low: low
+  close: close
+  settlement: settlement
+  pre_settlement: pre_settlement
+  volume: volume
+  open_interest: open_interest
+  turnover: turnover
+  upper_limit: upper_limit
+  lower_limit: lower_limit
+
+# 部分导出文件可能使用千手或万元。这里统一转换为原始单位。
+multipliers:
+  volume: 1.0
+  open_interest: 1.0
+  turnover: 1.0
+
+date_format: null
+csv_encoding: utf-8-sig
+

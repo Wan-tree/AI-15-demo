@@ -1,0 +1,13 @@
+# 第一版只记录研究范围。真实数据接入后，可补充上市日期、板块和流动性门槛。
+exchanges:
+  - SHFE
+  - DCE
+  - CZCE
+  - INE
+  - GFEX
+
+exclude_financial_futures: true
+
+minimum_history_days: 80
+minimum_daily_volume: 1
+

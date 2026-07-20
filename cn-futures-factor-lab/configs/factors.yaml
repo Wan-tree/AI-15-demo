@@ -1,0 +1,23 @@
+factors:
+  momentum_20:
+    enabled: true
+    lookback: 20
+  momentum_60:
+    enabled: true
+    lookback: 60
+  reversal_5:
+    enabled: true
+    lookback: 5
+  volatility_20:
+    enabled: true
+    lookback: 20
+  liquidity_20:
+    enabled: true
+    lookback: 20
+  open_interest_change_20:
+    enabled: true
+    lookback: 20
+
+# demo 默认使用中期动量；以后可以在这里更换因子或组合多个因子。
+signal_factor: momentum_20
+

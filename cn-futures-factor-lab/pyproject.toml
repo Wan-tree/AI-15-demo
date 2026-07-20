@@ -1,0 +1,56 @@
+[build-system]
+requires = ["setuptools>=69", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cn-futures-factor"
+version = "0.1.0"
+description = "Extensible research framework for Chinese commodity futures factors"
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+license = { text = "Educational use only" }
+authors = [{ name = "AI金融实训营项目组" }]
+dependencies = [
+  "numpy>=1.26,<3",
+  "pandas>=2.2,<4",
+  "pyarrow>=16,<24",
+  "openpyxl>=3.1,<4",
+  "PyYAML>=6,<7",
+  "matplotlib>=3.8,<4",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8,<10",
+  "pytest-cov>=5,<8",
+  "ruff>=0.6,<1",
+]
+ml = [
+  # 第一阶段不会导入这些库。将来讨论好模型后再执行：pip install -e ".[ml]"
+  "scikit-learn>=1.5,<2",
+  "lightgbm>=4.5,<5",
+  "xgboost>=2.1,<4",
+]
+
+[project.scripts]
+cn-futures = "cn_futures_factor.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+
+[tool.coverage.run]
+source = ["cn_futures_factor"]
+branch = true
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
+
