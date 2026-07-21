@@ -1,0 +1,2 @@
+[console_scripts]
+cn-futures = cn_futures_factor.cli:main

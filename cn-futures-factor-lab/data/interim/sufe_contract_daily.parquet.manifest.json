@@ -1,0 +1,34 @@
+{
+  "created_at_utc": "2026-07-21T07:46:39.486414+00:00",
+  "source_path": "/Users/Wantree/Desktop/AI金融实训营项目/cn-futures-factor-lab/data/raw/sufe/sufe_all_contracts_daily_20200102_20251231_exported_20260721.csv",
+  "source_sha256": "e6035cd9bd120ea2aafb7d90d8f61e7476376a7e93c151d59802a0b4d024b987",
+  "output_path": "/Users/Wantree/Desktop/AI金融实训营项目/cn-futures-factor-lab/data/interim/sufe_contract_daily.parquet",
+  "row_count": 764863,
+  "columns": [
+    "trade_date",
+    "exchange",
+    "product",
+    "contract",
+    "open",
+    "high",
+    "low",
+    "close",
+    "settlement",
+    "pre_settlement",
+    "volume",
+    "open_interest",
+    "turnover",
+    "upper_limit",
+    "lower_limit",
+    "source",
+    "futures_id",
+    "pre_close"
+  ],
+  "minimum_trade_date": "2020-01-02",
+  "maximum_trade_date": "2025-12-31",
+  "extra": {
+    "mapping": "configs/field_mappings_sufe_all_contracts.yaml",
+    "allow_inactive_ohlc": true,
+    "validation": "数据检查完成：764,863 行，0 个错误，3 个警告。\n- [warning] inactive_or_invalid_ohlc: OHLC 为空、为零或为负；允许模式下仅保留作结算价研究，不视为可成交 (数量=25325)\n- [warning] invalid_ohlc_range: OHLC 价格区间不一致 (数量=3)\n- [warning] zero_activity: 部分记录成交量或持仓量为零 (数量=101482)"
+  }
+}
