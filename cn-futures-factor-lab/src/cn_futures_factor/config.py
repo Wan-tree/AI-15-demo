@@ -40,5 +40,6 @@ def load_default_configs() -> dict[str, dict[str, Any]]:
         "base": load_yaml("configs/base.yaml"),
         "factors": load_yaml("configs/factors.yaml"),
         "backtest": load_yaml("configs/backtest.yaml"),
+        "research": load_yaml("configs/research.yaml"),
         "universe": load_yaml("configs/universe.yaml"),
     }

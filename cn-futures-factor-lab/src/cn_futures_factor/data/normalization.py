@@ -62,6 +62,34 @@ def standardize_contract_daily(
     else:
         frame["exchange"] = frame["exchange"].astype("string").str.strip().str.upper()
 
+    # 数据商常用中文交易所名称，而研究代码更适合统一使用 SHFE/DCE/CZCE/INE。
+    # 映射规则保存在 YAML 中，连接器本身不猜测具体数据商的代码体系。
+    value_mappings = mapping_config.get("value_mappings", {}) or {}
+    if not isinstance(value_mappings, dict):
+        raise DataValidationError("field_mappings.yaml 中 value_mappings 必须是键值结构")
+    for column, configured_mapping in value_mappings.items():
+        if column not in frame or not isinstance(configured_mapping, dict):
+            continue
+        normalized_mapping = {
+            str(source).strip().upper(): target
+            for source, target in configured_mapping.items()
+        }
+        normalized_values = frame[column].astype("string").str.strip().str.upper()
+        frame[column] = normalized_values.replace(normalized_mapping)
+
+    # 上财导出文件把上海期货交易所和上海国际能源交易中心都写作“上海”。这类情况
+    # 无法只看原 exchange 值区分，因此允许按品种做最终覆盖。
+    exchange_by_product = mapping_config.get("exchange_by_product", {}) or {}
+    if not isinstance(exchange_by_product, dict):
+        raise DataValidationError("field_mappings.yaml 中 exchange_by_product 必须是键值结构")
+    if exchange_by_product:
+        normalized_overrides = {
+            str(product).strip().upper(): str(exchange).strip().upper()
+            for product, exchange in exchange_by_product.items()
+        }
+        overrides = frame["product"].map(normalized_overrides)
+        frame.loc[overrides.notna(), "exchange"] = overrides.loc[overrides.notna()]
+
     # 结算价是期货研究中的核心字段。部分文件只有收盘价时允许显式回退到收盘价，
     # 但会保留标准列名，便于以后替换为真实结算价。
     if "settlement" not in frame and "close" in frame:

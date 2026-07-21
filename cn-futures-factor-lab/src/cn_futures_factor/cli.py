@@ -31,7 +31,18 @@ def _build_parser() -> argparse.ArgumentParser:
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     subparsers.add_parser("doctor", help="检查 Python、依赖、配置和项目目录")
-    subparsers.add_parser("demo", help="使用合成数据运行完整演示")
+    demo = subparsers.add_parser("demo", help="运行真实数据或合成数据的完整演示")
+    demo.add_argument(
+        "--source",
+        choices=("real", "synthetic"),
+        default=None,
+        help="覆盖配置中的数据源；当前默认 real，synthetic 仅用于测试和离线演示",
+    )
+    demo.add_argument(
+        "--input",
+        default=None,
+        help="真实数据标准化 Parquet；不指定时读取 configs/base.yaml",
+    )
 
     ingest = subparsers.add_parser("ingest", help="导入上财授权环境导出的本地文件")
     ingest.add_argument("--input", required=True, help="CSV、XLSX、XLSM 或 Parquet 文件")
@@ -46,6 +57,11 @@ def _build_parser() -> argparse.ArgumentParser:
         help="标准化数据输出位置",
     )
     ingest.add_argument("--sheet", default="0", help="Excel 工作表名称或从 0 开始的序号")
+    ingest.add_argument(
+        "--allow-inactive-ohlc",
+        action="store_true",
+        help="允许未活跃合约 OHLC 为零并记录警告；结算价仍必须有效",
+    )
     return parser
 
 
@@ -82,13 +98,20 @@ def _run_ingest(args: argparse.Namespace) -> None:
     mapping = load_yaml(args.mapping)
     connector = SufeExportConnector(source_path, mapping, sheet_name=_parse_sheet(args.sheet))
     frame = connector.load()
-    report = validate_contract_daily(frame)
+    report = validate_contract_daily(
+        frame,
+        allow_inactive_ohlc=bool(args.allow_inactive_ohlc),
+    )
     write_parquet_atomic(frame, output_path)
     manifest_path = write_manifest(
         source_path,
         output_path,
         frame,
-        extra={"mapping": str(Path(args.mapping)), "validation": report.summary()},
+        extra={
+            "mapping": str(Path(args.mapping)),
+            "allow_inactive_ohlc": bool(args.allow_inactive_ohlc),
+            "validation": report.summary(),
+        },
     )
     print(report.summary())
     print(f"标准化数据：{output_path}")
@@ -106,8 +129,9 @@ def main(argv: list[str] | None = None) -> None:
             # 延迟导入演示流水线，避免 doctor 命令仅做环境检查时就初始化 Matplotlib。
             from cn_futures_factor.pipelines.demo import run_demo
 
-            result = run_demo()
+            result = run_demo(data_source=args.source, input_path=args.input)
             print("演示运行成功。")
+            print(f"数据源：{result.data_source} ({result.source_path})")
             print(f"报告：{result.report_path}")
             print(f"净值图：{result.chart_path}")
             print(f"总收益：{result.metrics['total_return']:.2%}")

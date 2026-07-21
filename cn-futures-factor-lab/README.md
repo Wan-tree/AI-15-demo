@@ -1,6 +1,6 @@
 # 中国商品期货机器学习因子研究框架
 
-这是一个面向教学、课程研究与团队协作的中国商品期货日频因子研究框架。第一版先解决最重要的问题：**即使暂时没有真实数据，也可以端到端运行；拿到上财数据库导出的文件后，也不需要重写研究代码。**
+这是一个面向教学、课程研究与团队协作的中国商品期货日频因子研究框架。项目当前已经接入 2020～2025 年的真实全合约日行情；合成数据仍保留为自动测试和无数据时的离线兜底。
 
 ## 当前已经实现
 
@@ -8,11 +8,16 @@
 - 可重复生成的合成商品期货数据；
 - CSV、Excel、Parquet 数据接入；
 - 字段映射、标准化、数据质量检查与来源清单；
+- 真实上财导出全合约数据的专用字段映射；
 - 基于滞后持仓量的主力合约选择；
 - 无跳点的连续收益与连续价格序列；
 - 动量、反转、波动率、流动性和持仓变化因子；
 - 横截面多空组合；
+- 所有策略统一强制至少 1 个交易日的信号—执行滞后；
+- 下单前滞后流动性准入与执行日成交/OHLC 成交确认；
+- 与执行滞后对齐的 1/5/20 日未来收益标签；
 - 含统一基点调仓成本和额外换月成本的日频回测；
+- 固定训练/验证/测试日期边界与三档成本压力测试；
 - 绩效指标、净值图和 Markdown 报告；
 - 防止未来信息泄漏的自动测试；
 - 为后续机器学习模型预留的稳定接口。
@@ -43,7 +48,7 @@ cn-futures doctor
 
 ## 2. 首次运行
 
-下面的命令会生成合成数据，执行数据校验、主力合约构造、因子计算、组合构建和回测，并在 `artifacts/demo/` 生成报告：
+下面的命令默认读取 `data/interim/sufe_contract_daily.parquet`，执行数据校验、主力合约构造、因子计算、组合构建和回测，并在 `artifacts/real_demo/` 生成报告：
 
 ```bash
 cn-futures demo
@@ -58,14 +63,21 @@ python -m cn_futures_factor demo
 正常情况下会生成：
 
 ```text
-data/raw/demo_contract_daily.csv
-data/processed/demo_contract_daily.parquet
-data/processed/demo_main_panel.parquet
-data/processed/demo_features.parquet
-artifacts/demo/daily_returns.csv
-artifacts/demo/positions.csv
-artifacts/demo/equity_curve.png
-artifacts/demo/report.md
+data/processed/sufe_contract_daily.parquet
+data/processed/sufe_main_panel.parquet
+data/processed/sufe_features.parquet
+artifacts/real_demo/daily_returns.csv
+artifacts/real_demo/positions.csv
+artifacts/real_demo/period_metrics.csv
+artifacts/real_demo/cost_scenarios.csv
+artifacts/real_demo/equity_curve.png
+artifacts/real_demo/report.md
+```
+
+如需验证代码在完全不依赖真实文件时仍能运行：
+
+```bash
+cn-futures demo --source synthetic
 ```
 
 ## 3. 接入上财平台导出的数据
@@ -76,16 +88,19 @@ artifacts/demo/report.md
 data/raw/sufe/
 ```
 
-然后根据真实列名修改 `configs/field_mappings.yaml`，执行：
+当前全合约文件使用专用映射，执行：
 
 ```bash
 cn-futures ingest \
-  --input data/raw/sufe/你的文件.xlsx \
-  --mapping configs/field_mappings.yaml \
-  --output data/interim/sufe_contract_daily.parquet
+  --input data/raw/sufe/sufe_all_contracts_daily_20200102_20251231_exported_20260721.csv \
+  --mapping configs/field_mappings_sufe_all_contracts.yaml \
+  --output data/interim/sufe_contract_daily.parquet \
+  --allow-inactive-ohlc
 ```
 
 导入程序不会修改原始文件。它会额外生成 `.manifest.json`，记录文件摘要、行数、字段和处理时间，便于复现与审计。
+
+`sufe_vendor_main_contracts_daily_...csv` 仅用于核对供应商主力合约，不作为正式收益输入；项目使用全合约数据自行按滞后持仓量选择主力。
 
 ## 4. 常用命令
 
@@ -93,8 +108,11 @@ cn-futures ingest \
 # 环境与目录检查
 cn-futures doctor
 
-# 运行完整的合成数据演示
+# 运行当前默认的真实数据演示
 cn-futures demo
+
+# 运行合成数据兜底演示
+cn-futures demo --source synthetic
 
 # 导入上财平台导出的文件
 cn-futures ingest --input 文件路径 --mapping configs/field_mappings.yaml

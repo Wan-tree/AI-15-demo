@@ -60,6 +60,7 @@ def validate_contract_daily(
     frame: pd.DataFrame,
     *,
     raise_on_error: bool = True,
+    allow_inactive_ohlc: bool = False,
 ) -> ValidationReport:
     """检查标准合约日行情表。
 
@@ -70,6 +71,10 @@ def validate_contract_daily(
     raise_on_error:
         为真时，只要存在严重错误就抛出 ``DataValidationError``。探索阶段可以传假，
         先查看完整报告再决定如何修复。
+    allow_inactive_ohlc:
+        为真时，OHLC 缺失、非正或区间不一致降级为警告，但结算价仍必须有效。
+        某些日频期货数据会为未成交的远月合约保留结算价，同时把 OHLC 记为零。
+        该开关只允许技术研究流水线保留完整结算价日期链，不代表这些行可以成交。
     """
 
     report = ValidationReport(row_count=len(frame))
@@ -110,13 +115,29 @@ def validate_contract_daily(
             )
         )
 
-    price_columns = ["open", "high", "low", "close", "settlement"]
-    invalid_price = int(
-        (frame[price_columns].le(0) | frame[price_columns].isna()).any(axis=1).sum()
-    )
-    if invalid_price:
+    invalid_settlement = int((frame["settlement"].le(0) | frame["settlement"].isna()).sum())
+    if invalid_settlement:
         report.issues.append(
-            ValidationIssue("error", "invalid_price", "核心价格为空、为零或为负", invalid_price)
+            ValidationIssue(
+                "error",
+                "invalid_settlement",
+                "结算价为空、为零或为负",
+                invalid_settlement,
+            )
+        )
+
+    ohlc_columns = ["open", "high", "low", "close"]
+    invalid_ohlc = int(
+        (frame[ohlc_columns].le(0) | frame[ohlc_columns].isna()).any(axis=1).sum()
+    )
+    if invalid_ohlc:
+        report.issues.append(
+            ValidationIssue(
+                "warning" if allow_inactive_ohlc else "error",
+                "inactive_or_invalid_ohlc",
+                "OHLC 为空、为零或为负；允许模式下仅保留作结算价研究，不视为可成交",
+                invalid_ohlc,
+            )
         )
 
     invalid_range = int(
@@ -128,7 +149,12 @@ def validate_contract_daily(
     )
     if invalid_range:
         report.issues.append(
-            ValidationIssue("error", "invalid_ohlc_range", "OHLC 价格区间不一致", invalid_range)
+            ValidationIssue(
+                "warning" if allow_inactive_ohlc else "error",
+                "invalid_ohlc_range",
+                "OHLC 价格区间不一致",
+                invalid_range,
+            )
         )
 
     negative_activity = int((frame[["volume", "open_interest"]] < 0).any(axis=1).sum())

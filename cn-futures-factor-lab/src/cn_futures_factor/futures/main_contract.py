@@ -50,6 +50,16 @@ def build_main_contract_schedule(
 
     frame = contract_daily.sort_values(["contract", "trade_date"], kind="stable").copy()
     frame["selection_value"] = frame.groupby("contract", sort=False)[selector].shift(selector_lag)
+    # 执行日能使用的流动性信息也必须来自此前交易日。选中行会把这两列带入主力面板，
+    # 供公共执行层阻止在昨日无成交/无持仓的合约上建立仓位。
+    if "volume" in frame:
+        frame["lagged_volume"] = frame.groupby("contract", sort=False)["volume"].shift(
+            selector_lag
+        )
+    if "open_interest" in frame:
+        frame["lagged_open_interest"] = frame.groupby("contract", sort=False)[
+            "open_interest"
+        ].shift(selector_lag)
     frame = _add_delivery_month(frame)
     candidates = frame.dropna(subset=["selection_value"]).sort_values(
         ["product", "trade_date", "selection_value", "delivery_yyyymm", "contract"],

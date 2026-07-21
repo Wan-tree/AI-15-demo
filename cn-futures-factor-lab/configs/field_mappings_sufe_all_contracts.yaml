@@ -1,0 +1,42 @@
+# 2026-07-21 从上财授权环境导出的“全部具体月份合约日行情”字段映射。
+# 原始 CSV 必须保持只读；本配置只控制进入项目后的标准化副本。
+columns:
+  trade_date: trade_date
+  exchange: exchange
+  product: variety
+  contract: contract_code
+  open: open
+  high: high
+  low: low
+  close: close
+  settlement: settle_price
+  # 原文件只有 pre_close（前收盘价），不能冒充前结算价；设为 null 后，标准化程序
+  # 会按同一具体合约的 settlement 向后移动一日生成 pre_settlement。
+  pre_settlement: null
+  volume: volume
+  open_interest: open_interest
+  turnover: amount
+  upper_limit: null
+  lower_limit: null
+
+multipliers:
+  volume: 1.0
+  open_interest: 1.0
+  turnover: 1.0
+
+# CSV 中日期读入后是 YYYYMMDD 整数。若不指定格式，pandas 会把整数误当纳秒时间戳。
+date_format: "%Y%m%d"
+csv_encoding: utf-8-sig
+
+value_mappings:
+  exchange:
+    上海: SHFE
+    大连: DCE
+    郑州: CZCE
+
+# 数据商把能源中心也标为“上海”，需要根据品种覆盖为 INE。
+exchange_by_product:
+  BC: INE
+  LU: INE
+  NR: INE
+  SC: INE

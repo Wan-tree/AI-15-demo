@@ -4,12 +4,36 @@ portfolio:
   gross_exposure: 1.0
   minimum_products: 3
 
+execution:
+  # t 日完整收盘/结算数据只能在收盘后形成信号，因此最早从 t+1 交易日开始执行。
+  # 公共回测层强制该值至少为 1，所有未来模型共享，不能各自绕过。
+  signal_lag_days: 1
+  return_price_basis: settlement_to_next_settlement
+  # 只能使用执行日前已经知道的流动性。低于门槛时目标权重强制为 0，不建立新仓位。
+  minimum_lagged_volume: 1
+  minimum_lagged_open_interest: 1
+  # 下单后再用执行日真实行情确认是否具备最基本的成交条件；只决定订单能否成交，
+  # 不能参与 t 日信号。这样零成交或 OHLC 无效的合约不会贡献虚构收益。
+  minimum_execution_volume: 1
+  require_positive_execution_ohlc: true
+
 costs:
   # 普通调仓的单边成本，单位为基点。5 bps = 0.05%。
   rebalance_bps: 5.0
   # 合约换月时额外计算的单边成本。
   roll_bps: 3.0
 
+# 不知道精确历史手续费时，禁止只展示一个有利假设。所有策略固定输出三档成本压力。
+cost_scenarios:
+  low:
+    rebalance_bps: 2.0
+    roll_bps: 1.0
+  base:
+    rebalance_bps: 5.0
+    roll_bps: 3.0
+  stressed:
+    rebalance_bps: 10.0
+    roll_bps: 6.0
+
 report:
   annualization_days: 252
-

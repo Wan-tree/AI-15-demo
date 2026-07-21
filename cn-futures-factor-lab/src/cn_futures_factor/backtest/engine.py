@@ -8,6 +8,7 @@ from typing import Any
 import numpy as np
 import pandas as pd
 
+from cn_futures_factor.backtest.execution import apply_execution_lag
 from cn_futures_factor.exceptions import DataValidationError
 
 
@@ -23,12 +24,29 @@ def run_backtest(
     positions: pd.DataFrame,
     market_panel: pd.DataFrame,
     cost_config: dict[str, Any],
+    *,
+    execution_lag_days: int = 1,
+    minimum_lagged_volume: float = 0.0,
+    minimum_lagged_open_interest: float = 0.0,
+    minimum_execution_volume: float = 0.0,
+    require_positive_execution_ohlc: bool = False,
 ) -> BacktestResult:
-    """使用当日收盘后形成的权重和下一日具体合约收益进行回测。
+    """把信号滞后到未来执行日，再用执行日之后的具体合约收益回测。
 
-    ``forward_return`` 定义为当前选中具体合约从 t 到 t+1 的结算价收益。权重在 t 日
-    形成，收益在下一交易日实现。最后一个没有前瞻价格的交易日不会进入绩效统计。
+    ``positions.trade_date`` 是信号日期，不是成交日期。执行层至少滞后一个交易日，
+    输出中的 ``trade_date`` 才是执行/持有日期，``signal_date`` 保留信号来源日期。
+    ``forward_return`` 是执行日结算价到下一交易日结算价的收益。
     """
+
+    positions = apply_execution_lag(
+        positions,
+        market_panel,
+        execution_lag_days=execution_lag_days,
+        minimum_lagged_volume=minimum_lagged_volume,
+        minimum_lagged_open_interest=minimum_lagged_open_interest,
+        minimum_execution_volume=minimum_execution_volume,
+        require_positive_execution_ohlc=require_positive_execution_ohlc,
+    )
 
     required_positions = {"trade_date", "product", "weight"}
     required_market = {"trade_date", "product", "contract", "forward_return", "is_roll_day"}

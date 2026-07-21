@@ -10,6 +10,15 @@ paths:
   artifacts: artifacts
 
 demo:
+  # 当前默认使用已经标准化的真实上财导出数据。需要离线测试时可运行：
+  # cn-futures demo --source synthetic
+  data_source: real
+  real_input_path: data/interim/sufe_contract_daily.parquet
+  # 数据商会为部分未成交远月合约保留有效结算价，但把 OHLC 记为 0。
+  # 允许保留日期链用于技术演示；这不代表这些记录可实际成交。
+  allow_inactive_ohlc: true
+
+  # 以下参数只在 --source synthetic 时使用。
   start_date: "2021-01-04"
   periods: 520
   products: [RB, CU, M, TA, SR, MA]
@@ -19,4 +28,3 @@ main_contract:
   selector: open_interest
   selector_lag: 1
   prevent_delivery_month_rollback: true
-
